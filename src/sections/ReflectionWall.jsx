@@ -2,6 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import InteractiveBackground from '../components/InteractiveBackground';
 
+const Pin = () => (
+  <motion.div 
+    className="note-pin"
+    animate={{ 
+      rotate: [0, 5, -5, 0],
+      scale: [1, 1.1, 1]
+    }}
+    transition={{ 
+      duration: 4, 
+      repeat: Infinity, 
+      ease: "easeInOut" 
+    }}
+  >
+    <svg viewBox="0 0 100 100" className="pin-svg">
+      <circle cx="50" cy="30" r="25" fill="var(--gold)" />
+      <circle cx="50" cy="30" r="12" fill="rgba(255,255,255,0.4)" />
+      <path d="M50 55 L50 95" stroke="#999" strokeWidth="8" strokeLinecap="round" />
+    </svg>
+  </motion.div>
+);
+
 const PostItCard = ({ note, index }) => {
   const colors = ['yellow', 'blue', 'pink', 'cream', 'green'];
   const color = colors[index % colors.length];
@@ -21,7 +42,7 @@ const PostItCard = ({ note, index }) => {
       transition={{ type: "spring", stiffness: 260, damping: 20 }}
       className={`post-it ${color} font-handwriting`}
     >
-      <div className="washi-tape" />
+      <Pin />
       
       <p className="post-it-message">
         "{note.message}"
