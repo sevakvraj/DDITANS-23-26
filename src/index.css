@@ -51,6 +51,8 @@ body {
 /* Layout Utilities */
 .flex-center { display: flex; align-items: center; justify-content: center; }
 .flex-column { display: flex; flex-direction: column; }
+.gap-1 { gap: 0.5rem; }
+.gap-3 { gap: 1.5rem; }
 .container { max-width: 1300px; margin: 0 auto; }
 
 .nav-vignette {
@@ -293,6 +295,7 @@ body {
 .modal-container {
   width: 100%;
   max-width: 1000px;
+  height: clamp(650px, 85vh, 850px);
   background: #111;
   border-radius: 2rem;
   overflow: hidden;
@@ -303,11 +306,12 @@ body {
 .modal-content {
   display: flex;
   flex-direction: row;
-  min-height: 500px;
+  height: 100%;
 }
 
 .modal-photo-side {
   width: 45%;
+  height: 100%;
   position: relative;
   border-right: 1px solid var(--glass-border);
   background: #000;
@@ -326,6 +330,7 @@ body {
   flex-direction: column;
   height: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .photo-info-overlay {
@@ -353,21 +358,25 @@ body {
   font-weight: 700;
 }
 
-.modal-close {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: rgba(255,255,255,0.1);
-  border: none;
+.modal-close-inline {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   color: white;
   padding: 0.5rem;
   border-radius: 50%;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
   z-index: 10;
-  transition: var(--transition-funky);
 }
 
-.modal-close:hover { background: var(--gold); color: black; }
+.modal-close-inline:hover {
+  background: var(--gold);
+  color: black;
+  border-color: var(--gold);
+}
 
 .nav-arrow {
   position: absolute;

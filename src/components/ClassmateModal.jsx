@@ -104,11 +104,6 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
             className="modal-container"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <button className="modal-close" onClick={onClose}>
-              <X size={24} />
-            </button>
-
             {/* Navigation Arrows */}
             <button className="nav-arrow prev" onClick={onPrev}>
               <ChevronLeft size={32} />
@@ -140,10 +135,15 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
               <div className="modal-message-side">
                 <div className="message-header">
                   <div className="flex-between w-full">
-                    <span className="font-serif italic" style={{ fontSize: '1.4rem' }}>Messages from the Batch</span>
-                    {messages.length > 0 && (
-                      <span className="reply-count-tag font-modern">{messages.length} {messages.length === 1 ? 'MESSAGE' : 'MESSAGES'}</span>
-                    )}
+                    <div className="flex-column gap-1">
+                      <span className="font-serif italic" style={{ fontSize: '1.4rem' }}>Messages from the Batch</span>
+                      {messages.length > 0 && (
+                        <span className="reply-count-tag font-modern" style={{ width: 'fit-content' }}>{messages.length} {messages.length === 1 ? 'MESSAGE' : 'MESSAGES'}</span>
+                      )}
+                    </div>
+                    <button className="modal-close-inline" onClick={onClose}>
+                      <X size={24} />
+                    </button>
                   </div>
                 </div>
 
