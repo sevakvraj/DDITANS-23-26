@@ -5,13 +5,13 @@ import HeicImage from '../components/HeicImage';
 
 const TypewriterText = ({ text, isHovered }) => {
   const words = text.split(' ');
-  
+
   const container = {
     hidden: { opacity: 0, filter: 'blur(10px)' },
     visible: {
       opacity: 1,
       filter: 'blur(0px)',
-      transition: { 
+      transition: {
         staggerChildren: 0.03,
         duration: 0.5
       },
@@ -56,7 +56,7 @@ const TypewriterText = ({ text, isHovered }) => {
 
 const Timeline = () => {
   const containerRef = useRef(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -74,17 +74,17 @@ const Timeline = () => {
   return (
     <section id="journey" ref={containerRef} className="journey-section container" style={{ paddingTop: '180px', paddingBottom: '20rem' }}>
       <div style={{ marginBottom: '12rem', textAlign: 'center' }}>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           className="hero-subtitle"
         >
           // The Chronicles
         </motion.p>
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="font-serif" 
+          className="font-serif"
           style={{ fontSize: 'clamp(3.5rem, 8vw, 6rem)', fontWeight: 700 }}
         >
           The Journey: <span style={{ color: 'var(--gold)', fontStyle: 'italic' }}>2022-2026</span>
@@ -108,9 +108,9 @@ const Timeline = () => {
           />
           <defs>
             <linearGradient id="path-gradient-final" x1="0%" y1="0%" x2="0%" y2="100%">
-               <stop offset="0%" stopColor="var(--gold)" />
-               <stop offset="50%" stopColor="var(--accent)" />
-               <stop offset="100%" stopColor="var(--gold)" />
+              <stop offset="0%" stopColor="var(--gold)" />
+              <stop offset="50%" stopColor="var(--accent)" />
+              <stop offset="100%" stopColor="var(--gold)" />
             </linearGradient>
           </defs>
         </svg>
@@ -118,10 +118,10 @@ const Timeline = () => {
 
       <div className="journey-steps">
         {memories.journey.map((item, index) => (
-          <JourneyItem 
-            key={item.id} 
-            item={item} 
-            index={index} 
+          <JourneyItem
+            key={item.id}
+            item={item}
+            index={index}
           />
         ))}
       </div>
@@ -132,15 +132,15 @@ const Timeline = () => {
 const JourneyItem = ({ item, index }) => {
   const isEven = index % 2 === 0;
   const [isHovered, setIsHovered] = useState(false);
-  
+
   return (
-    <div 
-      className="journey-step" 
+    <div
+      className="journey-step"
       style={{ flexDirection: isEven ? 'row' : 'row-reverse' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div 
+      <motion.div
         className="path-node"
         initial={{ scale: 0, opacity: 0 }}
         whileInView={{ scale: 1.2, opacity: 1 }}
@@ -148,14 +148,14 @@ const JourneyItem = ({ item, index }) => {
         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
         style={{ top: '0%' }}
       >
-        <span style={{ 
-          position: 'absolute', 
-          top: '30px', 
-          left: '50%', 
-          transform: 'translateX(-50%)', 
-          whiteSpace: 'nowrap', 
-          fontSize: '1rem', 
-          color: 'var(--gold)', 
+        <span style={{
+          position: 'absolute',
+          top: '30px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          whiteSpace: 'nowrap',
+          fontSize: '1rem',
+          color: 'var(--gold)',
           fontWeight: 900,
           fontFamily: 'Bricolage Grotesque',
           textShadow: '0 0 10px rgba(0,0,0,0.8)'
@@ -166,37 +166,37 @@ const JourneyItem = ({ item, index }) => {
 
       <div className="journey-content">
         <motion.div
-           animate={{ 
-             opacity: 1, 
-             y: 0,
-           }}
-           transition={{ duration: 0.8 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{ duration: 0.8 }}
         >
           <div style={{ marginBottom: '1rem' }}>
             <span className="font-modern" style={{ color: 'var(--gold)', fontWeight: 800, fontSize: '0.9rem', opacity: 0.6 }}>{item.year}</span>
           </div>
           <h3 className="font-serif" style={{ fontSize: '2.4rem', marginBottom: '1.5rem', lineHeight: 1.1, fontWeight: 700 }}>{item.title}</h3>
-          
+
           <div className="font-modern" style={{ color: 'var(--text-dim)', fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '90%' }}>
             <TypewriterText text={item.description} isHovered={isHovered} />
           </div>
-          
+
           <AnimatePresence>
             {!isHovered && (
-               <motion.p 
-                 initial={{ opacity: 0 }}
-                 animate={{ opacity: 0.4 }}
-                 exit={{ opacity: 0 }}
-                 style={{ fontSize: '0.7rem', marginTop: '1rem', fontStyle: 'italic' }}
-               >
-                 Hover to reveal memory...
-               </motion.p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.4 }}
+                exit={{ opacity: 0 }}
+                style={{ fontSize: '0.7rem', marginTop: '1rem', fontStyle: 'italic' }}
+              >
+                Hover to reveal memory...
+              </motion.p>
             )}
           </AnimatePresence>
         </motion.div>
       </div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.9, rotate: isEven ? 3 : -3 }}
         whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -205,18 +205,18 @@ const JourneyItem = ({ item, index }) => {
         className="journey-image-wrapper"
       >
         <div style={{ position: 'relative', width: '100%' }}>
-          <HeicImage 
-            src={item.image} 
-            alt={item.title} 
+          <HeicImage
+            src={item.image}
+            alt={item.title}
             className="feathered-mask"
           />
-          <div style={{ 
-            position: 'absolute', 
-            bottom: '10%', 
-            right: '10%', 
-            width: '40px', 
-            height: '40px', 
-            borderRight: '2px solid var(--gold)', 
+          <div style={{
+            position: 'absolute',
+            bottom: '10%',
+            right: '10%',
+            width: '40px',
+            height: '40px',
+            borderRight: '2px solid var(--gold)',
             borderBottom: '2px solid var(--gold)',
             opacity: 0.3
           }} />

@@ -11,6 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.0",
     "@studio-freight/lenis": "^1.0.42",
     "@supabase/supabase-js": "^2.104.0",
     "framer-motion": "^12.38.0",
@@ -21,6 +23,7 @@
     "react-dom": "^19.2.5",
     "react-photo-album": "^3.6.0",
     "react-router-dom": "^7.14.1",
+    "three": "^0.184.0",
     "yet-another-react-lightbox": "^3.31.0"
   },
   "devDependencies": {
