@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import memories from '../data/memories.json';
 import InteractiveBackground from '../components/InteractiveBackground';
 
 const PostItCard = ({ note, index }) => {
   const colors = ['yellow', 'blue', 'pink', 'cream', 'green'];
   const color = colors[index % colors.length];
 
-  // Anti-gravity animation with random tilt
-  const floatVariants = {
-    animate: {
-      y: [0, -10, 0],
-      rotate: [index % 2 === 0 ? -1.5 : 1.5, index % 2 === 0 ? 1.5 : -1.5, index % 2 === 0 ? -1.5 : 1.5],
-      transition: {
-        duration: 4 + (index % 3),
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  };
+  // Random rotation for organic feel
+  const [rotation] = useState(Math.random() * 6 - 3);
 
   return (
     <motion.div
-      variants={floatVariants}
-      animate="animate"
-      whileHover={{ scale: 1.05, rotate: 0, zIndex: 50 }}
+      layout
+      drag
+      dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
+      initial={{ opacity: 0, scale: 0.8, rotate: rotation - 10 }}
+      animate={{ opacity: 1, scale: 1, rotate: rotation }}
+      whileHover={{ scale: 1.05, zIndex: 50, rotate: 0 }}
+      whileDrag={{ scale: 1.1, zIndex: 60 }}
+      transition={{ type: "spring", stiffness: 260, damping: 20 }}
       className={`post-it ${color} font-handwriting`}
     >
       <div className="washi-tape" />
@@ -33,8 +27,13 @@ const PostItCard = ({ note, index }) => {
         "{note.message}"
       </p>
       
-      <div className="post-it-author">
-        — {note.author}
+      <div className="post_it_footer">
+        <div className="post-it-author">
+          — {note.author}
+        </div>
+        <div className="post-it-date">
+          {note.created_at ? new Date(note.created_at).toLocaleDateString() : ''}
+        </div>
       </div>
     </motion.div>
   );
@@ -44,31 +43,61 @@ const ReflectionWall = () => {
   const [notes, setNotes] = useState([]);
   const [newName, setNewName] = useState('');
   const [newMessage, setNewMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPinning, setIsPinning] = useState(false);
 
-  // Load notes from memories and localStorage on mount
+  // Load notes from MongoDB API
+  const fetchNotes = async () => {
+    try {
+      const res = await fetch('/api/messages');
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setNotes(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch notes:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const savedNotes = JSON.parse(localStorage.getItem('batch26_highlights') || '[]');
-    const initialNotes = [...memories.wall, ...savedNotes];
-    setNotes(initialNotes);
+    fetchNotes();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!newName.trim() || !newMessage.trim()) return;
+    if (!newName.trim() || !newMessage.trim() || isPinning) return;
+
+    setIsPinning(true);
 
     const newNote = {
-      id: Date.now(),
       author: newName,
       message: newMessage,
-      date: new Date().toISOString()
     };
 
-    const updatedLocalStorage = [...JSON.parse(localStorage.getItem('batch26_highlights') || '[]'), newNote];
-    localStorage.setItem('batch26_highlights', JSON.stringify(updatedLocalStorage));
+    try {
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newNote),
+      });
 
-    setNotes([...notes, newNote]);
-    setNewName('');
-    setNewMessage('');
+      if (res.ok) {
+        const savedNote = await res.json();
+        // Optimistic update
+        setNotes([savedNote, ...notes]);
+        setNewName('');
+        setNewMessage('');
+      } else {
+        alert('Failed to pin your message. Please try again.');
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      alert('Connection error. Is MongoDB Atlas set up?');
+    } finally {
+      setIsPinning(false);
+    }
   };
 
   return (
@@ -91,14 +120,21 @@ const ReflectionWall = () => {
             Wall of Reflection
           </h2>
           <p className="vault-description font-modern mx-auto" style={{ maxWidth: '600px', opacity: 0.7 }}>
-            A space for the Batch of '26 to leave their legacies, final wishes, and fleeting thoughts.
+            A shared space for the Batch of '26 to leave their legacies, final wishes, and fleeting thoughts.
           </p>
         </div>
+
+        {/* Global Wall Status */}
+        {isLoading && (
+          <div className="text-center py-20 font-modern opacity-50">
+            Unrolling the wall...
+          </div>
+        )}
 
         <div className="post-it-container">
           <AnimatePresence>
             {notes.map((note, index) => (
-              <PostItCard key={note.id || index} note={note} index={index} />
+              <PostItCard key={note.id || note._id || index} note={note} index={index} />
             ))}
           </AnimatePresence>
         </div>
@@ -112,7 +148,7 @@ const ReflectionWall = () => {
         >
           <div className="text-center mb-10">
             <h3 className="font-serif italic" style={{ fontSize: '2.2rem', color: 'var(--gold)' }}>Leave a Legacy</h3>
-            <p className="font-modern text-dim" style={{ fontSize: '0.9rem', letterSpacing: '0.1em' }}>SHARE YOUR FINAL WORDS WITH THE CLASS</p>
+            <p className="font-modern text-dim" style={{ fontSize: '0.9rem', letterSpacing: '0.1em' }}>SHARED LIVE WITH THE ENTIRE CLASS</p>
           </div>
 
           <form onSubmit={handleSubmit} className="flex-column gap-6">
@@ -125,6 +161,7 @@ const ReflectionWall = () => {
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 required
+                disabled={isPinning}
               />
             </div>
 
@@ -137,12 +174,17 @@ const ReflectionWall = () => {
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 required
+                disabled={isPinning}
                 style={{ resize: 'none' }}
               />
             </div>
 
-            <button type="submit" className="reflection-submit">
-              Pin to Wall
+            <button 
+              type="submit" 
+              className={`reflection-submit ${isPinning ? 'loading' : ''}`}
+              disabled={isPinning}
+            >
+              {isPinning ? 'Pinning...' : 'Pin to Wall'}
             </button>
           </form>
         </motion.div>
