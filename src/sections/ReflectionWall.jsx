@@ -5,20 +5,26 @@ import InteractiveBackground from '../components/InteractiveBackground';
 const Pin = () => (
   <motion.div 
     className="note-pin"
+    initial={{ y: -20, opacity: 0 }}
     animate={{ 
-      rotate: [0, 5, -5, 0],
-      scale: [1, 1.1, 1]
+      y: [0, -4, 0],
+      rotate: [0, 3, -3, 0],
+      opacity: 1
     }}
     transition={{ 
-      duration: 4, 
-      repeat: Infinity, 
-      ease: "easeInOut" 
+      y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+      rotate: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+      opacity: { duration: 0.5 }
     }}
+    whileHover={{ scale: 1.2, rotate: 10 }}
   >
     <svg viewBox="0 0 100 100" className="pin-svg">
-      <circle cx="50" cy="30" r="25" fill="var(--gold)" />
-      <circle cx="50" cy="30" r="12" fill="rgba(255,255,255,0.4)" />
-      <path d="M50 55 L50 95" stroke="#999" strokeWidth="8" strokeLinecap="round" />
+      {/* Modern Minimalist Pin */}
+      <circle cx="50" cy="30" r="20" fill="#000" />
+      <rect x="47" y="30" width="6" height="40" fill="#000" />
+      <path d="M50 70 L50 95" stroke="#000" strokeWidth="4" strokeLinecap="round" />
+      {/* Subtle shine */}
+      <circle cx="42" cy="22" r="6" fill="rgba(255,255,255,0.2)" />
     </svg>
   </motion.div>
 );
