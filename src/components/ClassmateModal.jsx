@@ -202,10 +202,6 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
                    </form>
                 </div>
 
-                <div className="message-footer">
-                   <div className="footer-tag">BATCH // 2026</div>
-                   <div className="footer-tag">ROLL NO: {student.rollNo}</div>
-                </div>
               </div>
             </div>
           </motion.div>
