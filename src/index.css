@@ -1166,18 +1166,25 @@ body {
 }
 
 .official-note-wrapper {
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: none; /* Removed as requested */
+}
+
+.dynamic-messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .yearbook-msg-card {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 1rem;
   padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  transition: var(--transition-funky);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  min-height: 120px; /* Equalized minimum size */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .yearbook-msg-card:hover {
@@ -1187,10 +1194,12 @@ body {
 }
 
 .yearbook-msg-text {
-  font-size: 1.2rem;
-  line-height: 1.4;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #fff;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+  word-break: break-word;
 }
 
 .yearbook-msg-meta {
@@ -1202,34 +1211,46 @@ body {
 }
 
 .yearbook-input-section {
-  padding-top: 2rem;
-  margin-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1.5rem;
+  margin-top: auto; /* Push to bottom */
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .yearbook-author-input {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 0.8rem 1rem;
+  padding: 0.7rem 1rem;
   color: #fff;
   font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 0.8rem;
   width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.yearbook-author-input:focus {
+  border-color: var(--gold);
+  outline: none;
 }
 
 .yearbook-textarea {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 1rem;
   padding-right: 4rem;
   color: #fff;
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   width: 100%;
   resize: none;
-  min-height: 80px;
+  min-height: 100px;
+  transition: border-color 0.3s ease;
+}
+
+.yearbook-textarea:focus {
+  border-color: var(--gold);
+  outline: none;
 }
 
 .yearbook-send-btn {

@@ -131,23 +131,14 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
                 </div>
 
                 <div className="message-container scroll-custom">
-                  {/* Official Note section (Scrollable) */}
-                  <div className="official-note-wrapper">
-                    <p className="note-text">"{details.note}"</p>
-                    {details.caption && (
-                      <div className="caption-tag">
-                          # {details.caption}
-                      </div>
-                    )}
-                  </div>
-
+                  {/* Dynamic messages list with fixed container behavior */}
                   <div className="dynamic-messages-list">
                     <AnimatePresence mode="popLayout">
                       {messages.map((msg) => (
                         <motion.div 
                           key={msg.id || msg._id}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
                           className="yearbook-msg-card"
                         >
                           <p className="yearbook-msg-text font-handwriting">{msg.text}</p>
@@ -160,31 +151,36 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
                     </AnimatePresence>
                     
                     {isLoading && messages.length === 0 && (
-                      <div className="loading-tiny font-modern opacity-40 text-center py-10">Fetching legacies...</div>
+                      <div className="loading-tiny font-modern opacity-40 text-center py-10">Fetching memories...</div>
                     )}
                     
                     {!isLoading && messages.length === 0 && (
-                      <div className="empty-messages font-modern opacity-20 text-center py-10 italic">No messages yet. Be the first!</div>
+                      <div className="empty-messages font-modern opacity-20 text-center py-10 italic">No memories here yet. Be the first to write one!</div>
                     )}
                   </div>
                 </div>
 
-                {/* New Message Input Form */}
+                {/* Refined Dedicated Input Form */}
                 <div className="yearbook-input-section">
+                   <div className="input-prompt font-modern text-dim uppercase" style={{ fontSize: '0.65rem', marginBottom: '1rem', letterSpacing: '0.15em' }}>
+                     Leave a legacy or a funny memory
+                   </div>
                    <form onSubmit={handleSubmit} className="flex-column gap-3">
-                      <input 
-                        type="text" 
-                        placeholder="Your Identity (Name/Nickname)" 
-                        className="yearbook-author-input"
-                        value={newAuthor}
-                        onChange={(e) => setNewAuthor(e.target.value)}
-                        required
-                      />
+                      <div className="yearbook-input-group">
+                        <input 
+                          type="text" 
+                          placeholder="Your Name or Nickname" 
+                          className="yearbook-author-input"
+                          value={newAuthor}
+                          onChange={(e) => setNewAuthor(e.target.value)}
+                          required
+                        />
+                      </div>
                       <div className="relative">
                         <textarea 
-                          placeholder="Write a farewell message..."
+                          placeholder="What's your best memory with them?..."
                           className="yearbook-textarea"
-                          rows="2"
+                          rows="3"
                           value={newText}
                           onChange={(e) => setNewText(e.target.value)}
                           required
@@ -194,7 +190,13 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
                         className="yearbook-send-btn"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Send size={18} /></motion.div> : <Send size={18} />}
+                        {isSubmitting ? (
+                          <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}>
+                            <Send size={18} />
+                          </motion.div>
+                        ) : (
+                          <Send size={18} />
+                        )}
                       </button>
                       </div>
                    </form>
