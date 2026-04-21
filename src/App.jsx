@@ -9,8 +9,7 @@ import Gallery from './sections/Gallery';
 import Yearbook from './sections/Yearbook';
 import ReflectionWall from './sections/ReflectionWall';
 import InteractiveBackground from './components/InteractiveBackground';
-import Experience3D from './new_try/Experience3D';
-import { Globe, Zap } from 'lucide-react';
+import { Globe } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function App() {
@@ -28,13 +27,12 @@ function App() {
             <Route path="/vault" element={<Gallery />} />
             <Route path="/yearbook" element={<Yearbook />} />
             <Route path="/wall" element={<ReflectionWall />} />
-            <Route path="/experience" element={<Experience3D />} />
+
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
           <div className="global-blend-bottom" />
           
-          {/* Floating Portal Icon to Experience */}
-          <PortalTrigger />
+
         </main>
 
         <footer className="footer-cinematic">
@@ -63,48 +61,6 @@ function App() {
   );
 }
 
-const PortalTrigger = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  if (location.pathname === '/experience') return null;
-
-  return (
-    <motion.div 
-      initial={{ scale: 0, rotate: -180 }}
-      animate={{ scale: 1, rotate: 0 }}
-      whileHover={{ scale: 1.1, rotate: 10 }}
-      onClick={() => navigate('/experience')}
-      style={{
-        position: 'fixed',
-        bottom: '2rem',
-        right: '2rem',
-        zIndex: 5000,
-        width: '60px',
-        height: '60px',
-        background: 'var(--gold)',
-        borderRadius: '50%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer',
-        boxShadow: '0 0 30px var(--gold-glow)',
-        border: '4px solid #000'
-      }}
-    >
-      <Zap size={28} fill="black" />
-      <motion.div 
-        animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        style={{
-          position: 'absolute',
-          inset: -10,
-          border: '2px solid var(--gold)',
-          borderRadius: '50%'
-        }}
-      />
-    </motion.div>
-  );
-};
 
 export default App;

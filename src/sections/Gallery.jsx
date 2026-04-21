@@ -13,8 +13,8 @@ const MediaVault = () => {
     return ['All', ...new Set(rawCategories)];
   }, []);
 
-  const row1 = categories.slice(0, 6);
-  const row2 = categories.slice(6);
+  const row1 = categories.slice(0, 7);
+  const row2 = categories.slice(7);
 
   const photos = useMemo(() => {
     const vault = memories.vault || [];
@@ -62,7 +62,7 @@ const MediaVault = () => {
           transition={{ delay: 0.5 }}
           className="vault-description font-modern"
         >
-          A cinematic collection of fleeting moments, frozen in time. Exploring 6 chapters of our history.
+          A cinematic collection of fleeting moments, frozen in time. Exploring {categories.length - 1} chapters of our history.
         </motion.p>
       </div>
 
