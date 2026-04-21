@@ -1156,13 +1156,16 @@ body {
 /* --- Dynamic Yearbook Messages --- */
 
 .reply-count-tag {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.3rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.65rem;
-  color: var(--text-dim);
-  letter-spacing: 0.1em;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 215, 0, 0.1);
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  font-size: 0.6rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  text-transform: uppercase;
+  font-weight: 700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
 }
 
 .official-note-wrapper {
@@ -1176,12 +1179,12 @@ body {
 }
 
 .yearbook-msg-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  min-height: 120px; /* Equalized minimum size */
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 1.2rem;
+  padding: 1.8rem;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  min-height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1217,39 +1220,45 @@ body {
 }
 
 .yearbook-author-input {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 0.7rem 1rem;
-  color: #fff;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 0.8rem;
-  width: 100%;
-  transition: border-color 0.3s ease;
-}
-
-.yearbook-author-input:focus {
-  border-color: var(--gold);
-  outline: none;
-}
-
-.yearbook-textarea {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 1rem;
-  padding-right: 4rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0;
+  padding: 0.8rem 0;
   color: #fff;
   font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 0.85rem;
   width: 100%;
+  transition: all 0.3s ease;
+}
+
+.yearbook-author-input:focus {
+  border-bottom-color: var(--gold);
+  background: rgba(255, 255, 255, 0.04);
+  padding-left: 0.5rem;
+  outline: none;
+}
+
+.yearbook-textarea {
+  background: rgba(255, 255, 255, 0.02);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0;
+  padding: 1.2rem 0;
+  padding-right: 4rem;
+  color: #fff;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 0.9rem;
+  width: 100%;
   resize: none;
   min-height: 100px;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .yearbook-textarea:focus {
-  border-color: var(--gold);
+  border-bottom-color: var(--gold);
+  background: rgba(255, 255, 255, 0.04);
+  padding-left: 0.5rem;
   outline: none;
 }
 
