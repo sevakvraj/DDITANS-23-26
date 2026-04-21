@@ -51,8 +51,11 @@ body {
 /* Layout Utilities */
 .flex-center { display: flex; align-items: center; justify-content: center; }
 .flex-column { display: flex; flex-direction: column; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-align-center { display: flex; align-items: center; }
 .gap-1 { gap: 0.5rem; }
 .gap-3 { gap: 1.5rem; }
+.gap-4 { gap: 2rem; }
 .container { max-width: 1300px; margin: 0 auto; }
 
 .nav-vignette {

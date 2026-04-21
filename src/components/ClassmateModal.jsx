@@ -135,14 +135,14 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
               <div className="modal-message-side">
                 <div className="message-header">
                   <div className="flex-between w-full">
-                    <div className="flex-column gap-1">
-                      <span className="font-serif italic" style={{ fontSize: '1.4rem' }}>Messages from the Batch</span>
+                    <div className="flex-align-center gap-3">
+                      <span className="font-serif italic" style={{ fontSize: '1.4rem', whiteSpace: 'nowrap' }}>Messages from the Batch</span>
                       {messages.length > 0 && (
-                        <span className="reply-count-tag font-modern" style={{ width: 'fit-content' }}>{messages.length} {messages.length === 1 ? 'MESSAGE' : 'MESSAGES'}</span>
+                        <span className="reply-count-tag font-modern">{messages.length} {messages.length === 1 ? 'MESSAGE' : 'MESSAGES'}</span>
                       )}
                     </div>
-                    <button className="modal-close-inline" onClick={onClose}>
-                      <X size={24} />
+                    <button className="modal-close-inline" onClick={onClose} title="Close View">
+                      <X size={20} />
                     </button>
                   </div>
                 </div>
