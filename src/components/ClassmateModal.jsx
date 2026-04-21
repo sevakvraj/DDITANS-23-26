@@ -10,6 +10,8 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
   const [newText, setNewText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showNamePrompt, setShowNamePrompt] = useState(false);
+
 
   // Roll specific details from batch.js
   const details = student ? (batchDetails[student.rollNo] || batchDetails.default) : batchDetails.default;
@@ -21,15 +23,28 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
     setIsLoading(true);
     try {
       const res = await fetch(`/api/yearbook?rollNo=${student.rollNo}`);
+      
+      if (!res.ok) {
+        throw new Error(`Server responded with ${res.status}`);
+      }
+
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new TypeError("Oops, we haven't got JSON!");
+      }
+
       const data = await res.json();
       if (Array.isArray(data)) {
         setMessages(data);
       }
     } catch (err) {
       console.error('Failed to fetch yearbook messages:', err);
+      // Fallback: Clear messages if fetch fails to avoid showing stale/broken state
+      setMessages([]);
     } finally {
       setIsLoading(false);
     }
+
   };
 
   useEffect(() => {
@@ -39,8 +54,9 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
   }, [isOpen, student]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     if (!newAuthor.trim() || !newText.trim() || isSubmitting) return;
+
 
     setIsSubmitting(true);
     try {
@@ -58,8 +74,9 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
         const saved = await res.json();
         setMessages([saved, ...messages]);
         setNewText('');
-        // We keep the author name for convenience
+        setShowNamePrompt(false);
       }
+
     } catch (err) {
       console.error('Submission failed:', err);
       alert('Failed to send message. Please check your connection.');
@@ -162,20 +179,23 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
 
                 {/* Refined Dedicated Input Form */}
                 <div className="yearbook-input-section">
-                   <div className="input-prompt font-modern text-dim uppercase" style={{ fontSize: '0.65rem', marginBottom: '1rem', letterSpacing: '0.15em' }}>
+                   <div className="faded-separation-line"></div>
+                   
+                   <div className="input-prompt font-modern text-dim uppercase" style={{ fontSize: '0.65rem', marginBottom: '1rem', letterSpacing: '0.15em', paddingLeft: '0.5rem' }}>
                      Leave a legacy or a funny memory
                    </div>
-                   <form onSubmit={handleSubmit} className="flex-column gap-3">
-                      <div className="yearbook-input-group">
-                        <input 
-                          type="text" 
-                          placeholder="Your Name or Nickname" 
-                          className="yearbook-author-input"
-                          value={newAuthor}
-                          onChange={(e) => setNewAuthor(e.target.value)}
-                          required
-                        />
-                      </div>
+
+                   <form 
+                     onSubmit={(e) => {
+                       e.preventDefault();
+                       if (!newAuthor.trim()) {
+                         setShowNamePrompt(true);
+                       } else {
+                         handleSubmit(e);
+                       }
+                     }} 
+                     className="flex-column gap-3"
+                   >
                       <div className="relative">
                         <textarea 
                           placeholder="What's your best memory with them?..."
@@ -188,7 +208,7 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
                       <button 
                         type="submit" 
                         className="yearbook-send-btn"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !newText.trim()}
                       >
                         {isSubmitting ? (
                           <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}>
@@ -200,7 +220,60 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
                       </button>
                       </div>
                    </form>
+
+                   {/* Name Prompt Overlay */}
+                   <AnimatePresence>
+                     {showNamePrompt && (
+                       <motion.div 
+                         className="name-prompt-overlay"
+                         initial={{ opacity: 0 }}
+                         animate={{ opacity: 1 }}
+                         exit={{ opacity: 0 }}
+                       >
+                         <div className="name-prompt-card">
+                           <div className="font-modern uppercase mb-4" style={{ fontSize: '0.7rem', color: 'var(--gold)', letterSpacing: '0.2em' }}>
+                             Who are you?
+                           </div>
+                           <input 
+                             autoFocus
+                             type="text" 
+                             placeholder="Your Name or Nickname" 
+                             className="name-prompt-input"
+                             value={newAuthor}
+                             onChange={(e) => setNewAuthor(e.target.value)}
+                             onKeyDown={(e) => {
+                               if (e.key === 'Enter' && newAuthor.trim()) {
+                                 handleSubmit(e);
+                               }
+                             }}
+                           />
+                           <div className="flex-column gap-3">
+                             <button 
+                               type="button"
+                               className="name-confirm-btn w-full"
+                               onClick={() => {
+                                 if (newAuthor.trim()) {
+                                   handleSubmit();
+                                 }
+                               }}
+                             >
+                               Leave Memory
+                             </button>
+                             <button 
+                               type="button"
+                               className="name-cancel-btn"
+                               onClick={() => setShowNamePrompt(false)}
+                             >
+                               Cancel
+                             </button>
+                           </div>
+
+                         </div>
+                       </motion.div>
+                     )}
+                   </AnimatePresence>
                 </div>
+
 
               </div>
             </div>
