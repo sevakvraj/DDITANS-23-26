@@ -37,8 +37,8 @@ const Yearbook = () => {
   };
 
   return (
-    <section id="yearbook" className="section container" style={{ paddingTop: '180px' }}>
-      <div className="yearbook-header">
+    <section id="yearbook" className="yearbook-section container">
+      <div className="yearbook-header-content">
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -49,15 +49,13 @@ const Yearbook = () => {
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="font-funky"
-          style={{ fontSize: '3.5rem', fontWeight: 800 }}
+          className="font-funky yearbook-main-title"
         >
           Batch of <span style={{ color: 'var(--gold)', fontStyle: 'italic' }}>'26</span>
         </motion.h2>
       </div>
 
-      {/* Simplified Search - No Filters */}
-      <div className="search-container" style={{ marginBottom: '5rem' }}>
+      <div className="search-container">
         <Search
           size={20}
           style={{ position: 'absolute', left: '1.2rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }}

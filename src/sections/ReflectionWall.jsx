@@ -30,25 +30,50 @@ const Pin = () => (
 );
 
 const PostItCard = ({ note, index }) => {
-  const colors = ['yellow', 'blue', 'pink', 'cream', 'green'];
+  const colors = ['yellow', 'blue', 'pink', 'cream', 'green', 'mint', 'peach', 'lavender'];
   const color = colors[index % colors.length];
 
-  // Random rotation for organic feel
-  const [rotation] = useState(Math.random() * 6 - 3);
+  // Determinism based on index so notes don't jump around on re-renders
+  const [offsets] = useState(() => {
+    // Generate unique values for this specific card
+    const seed = index * 123.45;
+    const pseudoRandom = (offset) => Math.sin(seed + offset);
+    
+    return {
+      rotate: pseudoRandom(1) * 10, // ±10deg
+      x: pseudoRandom(2) * 30,      // ±30px horizontal scatter
+      y: pseudoRandom(3) * 20,      // ±20px vertical scatter
+      scale: 0.9 + (pseudoRandom(4) + 1) * 0.1, // 0.9 to 1.1 scale
+      pinLeft: 40 + (pseudoRandom(5) + 1) * 10, // 40% to 60% horizontal pin
+    };
+  });
 
   return (
     <motion.div
       layout
       drag
-      dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-      initial={{ opacity: 0, scale: 0.8, rotate: rotation - 10 }}
-      animate={{ opacity: 1, scale: 1, rotate: rotation }}
-      whileHover={{ scale: 1.05, zIndex: 50, rotate: 0 }}
-      whileDrag={{ scale: 1.1, zIndex: 60 }}
-      transition={{ type: "spring", stiffness: 260, damping: 20 }}
+      dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }}
+      initial={{ opacity: 0, scale: 0.5, rotate: offsets.rotate + 15 }}
+      animate={{ 
+        opacity: 1, 
+        scale: offsets.scale, 
+        rotate: offsets.rotate,
+        x: offsets.x,
+        y: offsets.y
+      }}
+      whileHover={{ scale: 1.1, zIndex: 100, rotate: 0, x: 0, y: 0 }}
+      whileDrag={{ scale: 1.15, zIndex: 110 }}
+      transition={{ type: "spring", stiffness: 200, damping: 25 }}
       className={`post-it ${color} font-handwriting`}
     >
-      <Pin />
+      <div className="note-pin" style={{ left: `${offsets.pinLeft}%` }}>
+        <svg viewBox="0 0 100 100" className="pin-svg">
+          <circle cx="50" cy="30" r="20" fill="#cc0000" />
+          <rect x="47" y="30" width="6" height="40" fill="#999" />
+          <path d="M50 70 L50 95" stroke="#999" strokeWidth="4" strokeLinecap="round" />
+          <circle cx="42" cy="22" r="6" fill="rgba(255,255,255,0.3)" />
+        </svg>
+      </div>
       
       <p className="post-it-message">
         "{note.message}"

@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import SmoothScroll from './components/SmoothScroll';
 import CustomCursor from './components/CustomCursor';
 import NavBar from './components/NavBar';
+import MobileNavBar from './sections/Mobile_Responsive/MobileNavBar';
 import Hero from './sections/Hero';
 import Timeline from './sections/Timeline';
 import Gallery from './sections/Gallery';
@@ -19,8 +20,9 @@ function App() {
         <CustomCursor />
         <div className="nav-vignette" />
         <NavBar />
+        <MobileNavBar />
         
-        <main style={{ minHeight: '80vh', position: 'relative', zIndex: 1 }}>
+        <main className="main-content-wrapper" style={{ minHeight: '80vh', position: 'relative', zIndex: 1 }}>
           <Routes>
             <Route path="/" element={<Hero />} />
             <Route path="/journey" element={<Timeline />} />

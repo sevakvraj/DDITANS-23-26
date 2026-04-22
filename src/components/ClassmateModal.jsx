@@ -104,22 +104,22 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
             className="modal-container"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Navigation Arrows */}
-            <button className="nav-arrow prev" onClick={onPrev}>
-              <ChevronLeft size={32} />
-            </button>
-            <button className="nav-arrow next" onClick={onNext}>
-              <ChevronRight size={32} />
-            </button>
-
             <div className="modal-content">
-              {/* Left Side: Photo */}
+              {/* Left Side: Photo Section with Navigation Overlays */}
               <div className="modal-photo-side">
                 <HeicImage 
                   src={imagePath} 
                   alt={student.name} 
                   className="modal-main-img"
                 />
+                
+                {/* Side Navigation Arrows Overlay */}
+                <button className="photo-nav-btn prev" onClick={onPrev} title="Previous">
+                  <ChevronLeft size={24} />
+                </button>
+                <button className="photo-nav-btn next" onClick={onNext} title="Next">
+                  <ChevronRight size={24} />
+                </button>
                 
                 <div className="photo-info-overlay">
                    <h2 className="modal-name">{student.name}</h2>
@@ -133,22 +133,22 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
 
               {/* Right Side: Message Area */}
               <div className="modal-message-side">
-                <div className="message-header">
-                  <div className="flex-between w-full">
-                    <div className="flex-align-center gap-3">
-                      <span className="font-serif italic" style={{ fontSize: '1.4rem', whiteSpace: 'nowrap' }}>Messages from the Batch</span>
-                      {messages.length > 0 && (
-                        <span className="reply-count-tag font-modern">{messages.length} {messages.length === 1 ? 'MESSAGE' : 'MESSAGES'}</span>
-                      )}
-                    </div>
-                    <button className="modal-close-inline" onClick={onClose} title="Close View">
-                      <X size={20} />
-                    </button>
-                  </div>
+                <div className="message-header-sketch">
+                   <div className="flex-between w-full">
+                      <div className="flex-align-center gap-3">
+                        <span className="font-serif italic modal-message-title">Messages from the Batch</span>
+                        {messages.length > 0 && (
+                          <span className="reply-count-tag font-modern">{messages.length}</span>
+                        )}
+                      </div>
+                      <button className="modal-close-inline" onClick={onClose} title="Close View">
+                        <X size={20} />
+                      </button>
+                   </div>
                 </div>
 
                 <div className="message-container scroll-custom">
-                  {/* Dynamic messages list with fixed container behavior */}
+                  {/* Dynamic messages list */}
                   <div className="dynamic-messages-list">
                     <AnimatePresence mode="popLayout">
                       {messages.map((msg) => (
@@ -177,12 +177,12 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
                   </div>
                 </div>
 
-                {/* Refined Dedicated Input Form */}
-                <div className="yearbook-input-section">
+                {/* Final Professional Chat Input Row */}
+                <div className="yearbook-input-section-sketch">
                    <div className="faded-separation-line"></div>
                    
-                   <div className="input-prompt font-modern text-dim uppercase" style={{ fontSize: '0.65rem', marginBottom: '1rem', letterSpacing: '0.15em', paddingLeft: '0.5rem' }}>
-                     Leave a legacy or a funny memory
+                   <div className="input-prompt font-modern text-dim uppercase" style={{ fontSize: '0.65rem', marginBottom: '0.8rem', letterSpacing: '0.15em', paddingLeft: '0.5rem' }}>
+                     Leave a memory
                    </div>
 
                    <form 
@@ -194,31 +194,29 @@ const ClassmateModal = ({ student, isOpen, onClose, onNext, onPrev }) => {
                          handleSubmit(e);
                        }
                      }} 
-                     className="flex-column gap-3"
+                     className="chat-input-row"
                    >
-                      <div className="relative">
-                        <textarea 
-                          placeholder="What's your best memory with them?..."
-                          className="yearbook-textarea"
-                          rows="3"
-                          value={newText}
-                          onChange={(e) => setNewText(e.target.value)}
-                          required
-                      />
-                      <button 
-                        type="submit" 
-                        className="yearbook-send-btn"
-                        disabled={isSubmitting || !newText.trim()}
-                      >
-                        {isSubmitting ? (
-                          <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}>
-                            <Send size={18} />
-                          </motion.div>
-                        ) : (
-                          <Send size={18} />
-                        )}
-                      </button>
-                      </div>
+                     <input 
+                       type="text"
+                       placeholder="What's your best memory with them?..."
+                       className="yearbook-input-pill"
+                       value={newText}
+                       onChange={(e) => setNewText(e.target.value)}
+                       required
+                     />
+                     <button 
+                       type="submit" 
+                       className="yearbook-circle-send"
+                       disabled={isSubmitting || !newText.trim()}
+                     >
+                       {isSubmitting ? (
+                         <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}>
+                           <Send size={18} />
+                         </motion.div>
+                       ) : (
+                         <Send size={18} />
+                       )}
+                     </button>
                    </form>
 
                    {/* Name Prompt Overlay */}

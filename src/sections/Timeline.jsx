@@ -87,7 +87,7 @@ const Timeline = () => {
           className="font-serif"
           style={{ fontSize: 'clamp(3.5rem, 8vw, 6rem)', fontWeight: 700 }}
         >
-          The Journey: <span style={{ color: 'var(--gold)', fontStyle: 'italic' }}>2022-2026</span>
+          The Journey: <span style={{ color: 'var(--gold)', fontStyle: 'italic' }}>2023-2026</span>
         </motion.h2>
       </div>
 

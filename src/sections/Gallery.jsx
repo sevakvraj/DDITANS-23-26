@@ -1,20 +1,42 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import memories from '../data/memories.json';
 import HeicImage from '../components/HeicImage';
+
 const MediaVault = () => {
   const [index, setIndex] = useState(-1);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [columnCount, setColumnCount] = useState(window.innerWidth < 640 ? 2 : 3);
 
-  const categories = useMemo(() => {
-    const rawCategories = (memories.vault || []).map(p => p.category);
-    return ['All', ...new Set(rawCategories)];
+  useEffect(() => {
+    const handleResize = () => {
+      setColumnCount(window.innerWidth < 640 ? 2 : 3);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const row1 = categories.slice(0, 7);
-  const row2 = categories.slice(7);
+  const { row1, row2, row3, totalChapters } = useMemo(() => {
+    const rawCategories = (memories.vault || []).map(p => p.category);
+    const unique = ['All', ...new Set(rawCategories)];
+    
+    const order = [
+      'All', 'Celebration', 'Feleshepic-2024', 'Feleshepic-2025', // Row 1
+      'Feleshepic-2026', 'Mam\'s Farewell', 'Trips',            // Row 2
+      'Signature Day', 'Ratri-Before-Navratri', 'Unplaned Bunks' // Row 3
+    ];
+
+    const validOrder = order.filter(cat => unique.includes(cat));
+    
+    return {
+      row1: validOrder.slice(0, 4),
+      row2: validOrder.slice(4, 7),
+      row3: validOrder.slice(7),
+      totalChapters: unique.length - 1
+    };
+  }, []);
 
   const photos = useMemo(() => {
     const vault = memories.vault || [];
@@ -23,19 +45,19 @@ const MediaVault = () => {
   }, [activeCategory]);
 
   const columns = useMemo(() => {
-    const cols = [[], [], []];
+    const cols = Array.from({ length: columnCount }, () => []);
     photos.forEach((photo, i) => {
-      cols[i % 3].push(photo);
+      cols[i % columnCount].push(photo);
     });
     return cols;
-  }, [photos]);
+  }, [photos, columnCount]);
 
   return (
     <section id="vault" className="vault-section container">
       <div className="vault-bg-glow" />
 
-      <div style={{ marginBottom: '6rem', position: 'relative', zIndex: 10 }}>
-        <div className="flex-start" style={{ gap: '2rem', alignItems: 'baseline' }}>
+      <div className="vault-header-container" style={{ position: 'relative', zIndex: 10 }}>
+        <div className="flex-start vault-title-row" style={{ gap: '2rem', alignItems: 'baseline' }}>
           <motion.h2
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +84,7 @@ const MediaVault = () => {
           transition={{ delay: 0.5 }}
           className="vault-description font-modern"
         >
-          A cinematic collection of fleeting moments, frozen in time. Exploring {categories.length - 1} chapters of our history.
+          A cinematic collection of fleeting moments, frozen in time. Exploring {totalChapters} chapters of our history.
         </motion.p>
       </div>
 
@@ -81,6 +103,18 @@ const MediaVault = () => {
         </div>
         <div className="filter-row">
           {row2.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`vault-filter-btn-minimal ${activeCategory === cat ? 'active' : ''}`}
+            >
+              {cat}
+              {activeCategory === cat && <motion.div layoutId="active-dot" className="active-dot" />}
+            </button>
+          ))}
+        </div>
+        <div className="filter-row">
+          {row3.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}

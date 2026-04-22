@@ -12,7 +12,7 @@ const NavBar = () => {
   ];
 
   return (
-    <div style={{ position: 'fixed', top: '1.5rem', left: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, padding: '0 2rem' }}>
+    <div className="nav-container-desktop" style={{ position: 'fixed', top: '1.5rem', left: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, padding: '0 2rem' }}>
       <div style={{ width: '100%', maxWidth: '1300px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         
         {/* Brand/Logo */}
@@ -76,6 +76,9 @@ const NavBar = () => {
           color: var(--gold);
           background: rgba(255, 215, 0, 0.1);
           box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
+        }
+        @media (max-width: 768px) {
+          .nav-container-desktop { display: none !important; }
         }
         @media (max-width: 640px) {
           .nav-text-desktop { display: none; }

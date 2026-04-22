@@ -58,6 +58,16 @@ body {
 .gap-4 { gap: 2rem; }
 .container { max-width: 1300px; margin: 0 auto; }
 
+.main-content-wrapper {
+  transition: padding-bottom 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .main-content-wrapper {
+    padding-bottom: 80px; /* Space for Mobile NavBar */
+  }
+}
+
 .nav-vignette {
   position: fixed;
   top: 0;
@@ -162,16 +172,31 @@ body {
   color: #000;
 }
 
-/* Yearbook Specifics */
-.yearbook-header {
+.yearbook-section {
+  padding-top: 180px;
+  padding-bottom: 5rem;
+}
+
+@media (max-width: 768px) {
+  .yearbook-section {
+    padding-top: 100px;
+  }
+}
+
+.yearbook-header-content {
   margin-bottom: 4rem;
   text-align: center;
+}
+
+.yearbook-main-title {
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 800;
 }
 
 .search-container {
   width: 100%;
   max-width: 600px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 5rem;
   position: relative;
 }
 
@@ -185,6 +210,17 @@ body {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 1rem;
   transition: var(--transition-funky);
+}
+
+@media (max-width: 768px) {
+  .search-container {
+    margin-bottom: 3rem;
+    max-width: 100%;
+  }
+  .search-input {
+    padding: 0.8rem 1rem 0.8rem 2.8rem;
+    font-size: 0.85rem;
+  }
 }
 
 .search-input:focus {
@@ -228,6 +264,13 @@ body {
   width: 100%;
 }
 
+@media (max-width: 600px) {
+  .yearbook-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+}
+
 .classmate-card {
   height: 100%;
 }
@@ -247,11 +290,25 @@ body {
   overflow: hidden;
 }
 
+@media (max-width: 600px) {
+  .initials-avatar {
+    height: 220px;
+    font-size: 2.5rem;
+    border-radius: 1rem;
+  }
+}
+
 .classmate-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .classmate-img {
+    border-radius: 1rem;
+  }
 }
 
 .initials-avatar.alt-1 { background: linear-gradient(135deg, #700 0%, #300 100%); }
@@ -261,11 +318,24 @@ body {
   margin-top: 1.5rem;
 }
 
+@media (max-width: 600px) {
+  .classmate-info {
+    margin-top: 0.8rem;
+  }
+}
+
 .classmate-name {
   font-family: 'Syne', sans-serif;
   font-weight: 700;
   font-size: 1.3rem;
   margin-bottom: 0.3rem;
+}
+
+@media (max-width: 600px) {
+  .classmate-name {
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
 }
 
 .classmate-sub {
@@ -274,6 +344,12 @@ body {
   color: var(--text-dim);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+@media (max-width: 600px) {
+  .classmate-sub {
+    font-size: 0.55rem;
+  }
 }
 
 .id-tag {
@@ -352,6 +428,22 @@ body {
   margin-bottom: 0.5rem;
 }
 
+@media (max-width: 768px) {
+  .modal-name {
+    font-size: 1.8rem;
+  }
+}
+
+.modal-message-title {
+  font-size: 1.4rem;
+}
+
+@media (max-width: 768px) {
+  .modal-message-title {
+    font-size: 1.1rem;
+  }
+}
+
 .modal-stats {
   display: flex;
   gap: 1rem;
@@ -359,6 +451,12 @@ body {
   font-size: 0.8rem;
   color: var(--gold);
   font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .modal-stats {
+    font-size: 0.65rem;
+  }
 }
 
 .modal-close-inline {
@@ -375,38 +473,68 @@ body {
   z-index: 10;
 }
 
+.photo-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+}
+
+.photo-nav-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  color: var(--gold);
+  border-color: var(--gold);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.photo-nav-btn.prev { left: 1rem; }
+.photo-nav-btn.next { right: 1rem; }
+
+@media (max-width: 600px) {
+  .photo-nav-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
+
 .modal-close-inline:hover {
   background: var(--gold);
   color: black;
   border-color: var(--gold);
 }
 
-.nav-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: rgba(255,255,255,0.3);
-  cursor: pointer;
-  transition: var(--transition-funky);
-  z-index: 5;
+/* Redundant arrows removed from top navigation */
+
+.message-header-sketch { 
+  margin-bottom: 2rem; 
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.nav-arrow:hover { color: var(--gold); scale: 1.2; }
-.nav-arrow.prev { left: -4rem; }
-.nav-arrow.next { right: -4rem; }
-
-.message-header { 
-  margin-bottom: 2rem; 
-  border-bottom: 1px solid var(--glass-border); 
-  padding-bottom: 1rem;
+.message-header-sketch .modal-message-title {
   font-family: 'Playfair Display', serif;
   font-size: 1.4rem;
   color: var(--text-primary);
+  opacity: 0.8;
 }
 
-.message-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+@media (max-width: 768px) {
+  .message-header-sketch .modal-message-title {
+    font-size: 1.1rem;
+  }
+}
 
 .message-container {
   flex: 1;
@@ -552,6 +680,12 @@ body {
   width: 100%;
 }
 
+@media (max-width: 768px) {
+  .vault-section {
+    padding-top: 100px;
+  }
+}
+
 .vault-masonry-wrapper {
   max-width: 1400px;
   margin: 0 auto;
@@ -575,11 +709,12 @@ body {
 @media (max-width: 900px) {
   .vault-ordered-masonry { gap: 1rem; }
   .vault-column { gap: 1rem; }
-  .vault-column:last-child { display: none; } /* Show 2 cols on tablet */
+  /* Keep columns visible on tablet/mobile as JS handles the count */
 }
 
 @media (max-width: 600px) {
-  .vault-column:nth-child(2) { display: none; } /* Show 1 col on mobile */
+  .vault-column { gap: 0.8rem; }
+  .vault-ordered-masonry { gap: 0.8rem; }
 }
 
 .vault-card {
@@ -614,10 +749,27 @@ body {
 }
 
 .vault-main-title {
-  font-size: clamp(5rem, 15vw, 12rem);
+  font-size: clamp(2.5rem, 10vw, 8rem);
   font-weight: 300;
-  line-height: 0.85;
+  line-height: 0.9;
   letter-spacing: -0.04em;
+}
+
+.vault-header-container {
+  margin-bottom: 6rem;
+}
+
+.vault-title-row {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .vault-header-container {
+    margin-bottom: 3rem;
+  }
+  .vault-title-row {
+    gap: 0.5rem !important;
+  }
 }
 
 .vault-title-accent {
@@ -647,12 +799,19 @@ body {
 
 .vault-description {
   max-width: 450px;
-  margin-top: 3rem;
+  margin-top: 2rem;
   color: var(--text-dim);
-  font-size: 1.2rem;
-  line-height: 1.5;
+  font-size: 1.1rem;
+  line-height: 1.4;
   font-weight: 400;
   opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .vault-description {
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
 }
 
 .vault-batch-tag {
@@ -670,16 +829,31 @@ body {
 .vault-filters-minimal {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 6rem;
+  gap: 1rem;
+  margin-bottom: 4rem;
   align-items: center;
 }
 
 .filter-row {
   display: flex;
-  gap: 2.5rem;
+  gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .vault-filters-minimal {
+    margin-bottom: 2.5rem;
+    gap: 0.5rem;
+  }
+  .filter-row {
+    gap: 0.8rem;
+    padding: 0 1rem;
+  }
+  .vault-filter-btn-minimal {
+    font-size: 0.65rem !important;
+    padding: 0.3rem 0 !important;
+  }
 }
 
 .vault-filter-btn-minimal {
@@ -826,7 +1000,12 @@ body {
 
 .wall-section {
   position: relative;
-  background: radial-gradient(circle at top right, #111, #000);
+  background: #0d0d0d;
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
   overflow: hidden;
   min-height: 100vh;
 }
@@ -841,31 +1020,46 @@ body {
 }
 
 .post-it-container {
-  columns: 3 300px;
-  column-gap: 2rem;
-  padding: 4rem 1rem;
-  max-width: 1300px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+  padding: 6rem 2rem;
+  max-width: 1400px;
   margin: 0 auto;
+  perspective: 1000px;
 }
 
 .post-it {
-  break-inside: avoid;
-  display: inline-block; /* Essential for columns */
-  width: 100%;
+  width: 320px;
+  min-height: 320px;
   position: relative;
-  margin-bottom: 2.5rem;
-  padding: 2.5rem;
-  padding-top: 4.5rem;
+  padding: 3rem 2rem;
+  padding-top: 4rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 
-    10px 10px 25px rgba(0,0,0,0.3),
-    0 0 50px rgba(0,0,0,0.05) inset;
+    15px 15px 35px rgba(0,0,0,0.4),
+    0 0 80px rgba(255,255,255,0.02) inset;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   cursor: grab;
-  background-image: url("https://www.transparenttextures.com/patterns/notebook.png");
-  border-radius: 2px 2px 20px 2px;
+  border-radius: 2px 2px 40px 2px;
+  transform-style: preserve-3d;
+}
+
+@media (max-width: 768px) {
+  .post-it {
+    width: 160px;
+    min-height: 160px;
+    padding: 1.5rem 1rem;
+    padding-top: 2.5rem;
+    border-radius: 2px 2px 20px 2px;
+  }
+  .post-it-container {
+    gap: 1.5rem;
+    padding: 4rem 1rem;
+  }
 }
 
 .post-it:active {
@@ -901,10 +1095,18 @@ body {
 }
 
 .post-it-message {
-  font-size: 1.6rem;
-  line-height: 1.3;
-  color: #2d3436;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  color: #1a1a1a;
   text-align: left;
+  font-family: 'Handlee', 'Kalam', cursive;
+}
+
+@media (max-width: 768px) {
+  .post-it-message {
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
 }
 
 .post_it_footer {
@@ -924,20 +1126,36 @@ body {
 }
 
 .post-it-date {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   font-family: 'Bricolage Grotesque', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  opacity: 0.4;
+  opacity: 0.3;
   color: #000;
 }
 
-/* Post-it Color Variants */
-.post-it.yellow { background: #fff9c4; }
-.post-it.blue   { background: #e3f2fd; }
-.post-it.pink   { background: #fce4ec; }
-.post-it.cream  { background: #fff5e1; }
-.post-it.green  { background: #f1f8e9; }
+@media (max-width: 768px) {
+  .post_it_footer {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+  }
+  .post-it-author {
+    font-size: 0.65rem;
+  }
+  .post-it-date {
+    font-size: 0.5rem;
+  }
+}
+
+/* Post-it Color Variants - Bright & Modern */
+.post-it.yellow   { background: #ffee58; }
+.post-it.blue     { background: #81d4fa; }
+.post-it.pink     { background: #f48fb1; }
+.post-it.cream    { background: #fff9c4; }
+.post-it.green    { background: #a5d6a7; }
+.post-it.mint     { background: #b2dfdb; }
+.post-it.peach    { background: #ffccbc; }
+.post-it.lavender { background: #e1bee7; }
 
 /* Interactive Form Styling */
 .reflection-form-container {
@@ -1235,60 +1453,90 @@ body {
   opacity: 0.5;
 }
 
-.yearbook-input-section {
+.yearbook-input-section-sketch {
   padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
   margin-top: auto;
   width: 100%;
-  position: relative;
 }
 
-.faded-separation-line {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(255, 255, 255, 0.1) 20%, 
-    rgba(255, 255, 255, 0.1) 80%, 
-    transparent 100%
-  );
-  margin-bottom: 1.5rem;
+.chat-input-row {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
 }
 
-
-.yearbook-author-input {
-  background: rgba(255, 255, 255, 0.02);
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 0;
-  padding: 0.8rem 0;
+.yearbook-input-pill {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  padding: 0.9rem 1.5rem;
   color: #fff;
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 0.85rem;
-  width: 100%;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
 }
 
-.yearbook-author-input:focus {
-  border-bottom-color: var(--gold);
-  background: rgba(255, 255, 255, 0.04);
-  padding-left: 0.5rem;
+.yearbook-input-pill:focus {
   outline: none;
+  border-color: rgba(255, 215, 0, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.yearbook-circle-send {
+  background: var(--gold);
+  color: #000;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+  .yearbook-circle-send {
+    width: 40px;
+    height: 40px;
+  }
+  .yearbook-input-pill {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+.yearbook-circle-send:hover:not(:disabled) {
+  transform: scale(1.1) rotate(-10deg);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+}
+
+.yearbook-circle-send:disabled {
+  background: #333;
+  color: #666;
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .yearbook-textarea {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 1.2rem;
-  padding: 1.5rem;
-  padding-right: 4.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  padding: 0.8rem 1.5rem;
+  padding-right: 3.5rem;
   color: #fff;
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   width: 100%;
-  resize: none;
-  min-height: 120px;
   transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
 }
 
 
@@ -1396,31 +1644,5 @@ body {
 }
 
 
-.yearbook-send-btn {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  background: var(--gold);
-  color: #000;
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.yearbook-send-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-}
-
-.yearbook-send-btn:disabled {
-  background: #444;
-  cursor: not-allowed;
-  opacity: 0.5;
-}
+/* Redundant legacy send btn styles removed */
 
