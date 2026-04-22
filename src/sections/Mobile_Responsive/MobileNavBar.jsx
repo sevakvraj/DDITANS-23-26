@@ -83,9 +83,9 @@ const MobileNavBar = () => {
           left: 0;
           width: 100%;
           height: 70px;
-          background: rgba(10, 10, 15, 0.85);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: rgba(10, 10, 15, 0.45);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
           border-top: 1px solid rgba(255, 255, 255, 0.08);
           display: none;
           justify-content: center;

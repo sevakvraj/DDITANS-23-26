@@ -95,7 +95,6 @@ body {
     0 0 40px rgba(255, 215, 0, 0.01);
 }
 
-/* Hero Styles */
 .hero-bg-personalized {
   position: absolute;
   top: 0;
@@ -106,6 +105,26 @@ body {
   background-size: cover;
   background-position: center;
   z-index: -2;
+}
+
+.hero-video-mobile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hero-bg-personalized {
+    display: none;
+  }
+  .hero-video-mobile {
+    display: block;
+  }
 }
 
 /* Gradient Blend - SMOOTH TRANSITION TO BLACK */
@@ -136,6 +155,14 @@ body {
   text-shadow: 10px 10px 0px rgba(0,0,0,0.1);
 }
 
+@media (max-width: 768px) {
+  .hero-title {
+    text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    line-height: 1.1;
+    font-weight: 800;
+  }
+}
+
 .hero-subtitle {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
@@ -144,6 +171,20 @@ body {
   letter-spacing: 0.4em;
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .hero-subtitle {
+    letter-spacing: 0.25em;
+    font-size: 0.75rem;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+  }
 }
 
 /* Overlap Logic */

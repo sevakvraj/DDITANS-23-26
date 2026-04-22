@@ -27,6 +27,15 @@ const Hero = () => {
     <section id="hero" style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', paddingTop: '180px', paddingBottom: '100px' }}>
       {/* Personalized Background & Smooth Blend */}
       <div className="hero-bg-personalized" />
+      <video 
+        className="hero-video-mobile"
+        autoPlay 
+        loop 
+        muted 
+        playsInline
+      >
+        <source src="/photos/hero_section/Mobile_View.mp4" type="video/mp4" />
+      </video>
       <div className="hero-blend-overlay" />
 
       <div className="container" style={{ position: 'relative', zIndex: 1, padding: '0 2rem' }}>
@@ -37,7 +46,7 @@ const Hero = () => {
           style={{ maxWidth: '900px' }}
         >
           <motion.p variants={itemVariants} className="hero-subtitle">
-            DHARAMSINH DESAI UNIVERSITY // {memories.hero.subtitle}
+            DDU {memories.hero.subtitle}
           </motion.p>
 
           {/* Overlapping Text Design */}
@@ -58,7 +67,7 @@ const Hero = () => {
                 textTransform: 'uppercase'
               }}
             >
-              Batch of 2026 • The Final Chapter
+              
             </motion.div>
           </div>
 
@@ -127,9 +136,9 @@ const Hero = () => {
         style={{ position: 'absolute', bottom: '3rem', right: '3rem', display: 'flex', alignItems: 'center', gap: '1.5rem', transform: 'rotate(90deg)', transformOrigin: 'right bottom' }}
       >
         <span className="font-modern uppercase" style={{ fontSize: '0.65rem', letterSpacing: '0.4em', color: '#fff' }}>
-          SCROLL TO DISCOVER
+          
         </span>
-        <div style={{ width: '80px', height: '1px', background: 'rgba(255,255,255,0.3)' }} />
+        
       </motion.div>
     </section>
   );
